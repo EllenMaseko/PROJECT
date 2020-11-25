@@ -28,30 +28,30 @@ ui <- dashboardPage(
 server <- function(input, output){
     
     df <- tibble(read.csv("crime_data.csv"))
-  
+    
     
     data_crime <- reactive({
         
         if(input$select_case == 'CRIMES_AGAINST_THE _PERSON'){
-           df_1 <- df %>% filter(classes == input$select_case) 
-        
+            df_1 <- df %>% filter(classes == input$select_case) 
+            
         }else if(input$select_case == 'CONTACT_RELATED_CRIMES'){
             df_1 <- df %>%  filter(classes==input$select_case)
-        
+            
         }else if(input$select_case == 'PROPERTY_RELATED_CRIMES'){
             df_1 <- df %>%  filter(classes==input$select_case)
-        
+            
         }else if(input$select_case == 'OTHER_SERIOUS_CRIMES'){
             df_1 <- df %>%  filter(classes==input$select_case)
-        
+            
         }else if(input$select_case == 'CRIME_DETECTED_AS_A_RESULT_OF_POLICE_ACTION'){
             df_1 <- df %>%  filter(classes==input$select_case)
-        
+            
         }else{
             df_1 <- df %>%  filter(classes==input$select_case)
         }
         df_2 <- na.omit(df_1)
-          return(df_2)
+        return(df_2)
     })
     
     data_crime_1 <- reactive({
@@ -77,19 +77,20 @@ server <- function(input, output){
         }
         df_3 <- na.omit(df_2)
         return(df_3)
-      
+        
     })
     data_crime_2 <- reactive({
         df_1 <- melt(df,id.vars = c("X","classes","CRIME_CATEGORY"))
         df_1$value[which(is.na(df_1$value))]=0
-        df_1 %>% filter(value<input$slider)
-       
-        return(df_1)
+        df_6<-aggregate(value~variable,df_1,sum)
+        df_5 <- df_6 %>% filter(value>input$slider)
+        
+        return(df_5)
     })
-
     
-        output$plot1_values <- renderPlot({
-        data_crime_1() %>% group_by(variable) %>%
+    
+    output$plot1_values <- renderPlot({
+        data_crime_1() %>% 
             ggplot(aes(x=value, y=reorder(variable,value),fill=variable))+
             guides(fill=FALSE)+
             geom_col()+
@@ -99,7 +100,7 @@ server <- function(input, output){
     })
     
     output$plot2_values <- renderPlot({
-        data_crime_2() %>% group_by(variable) %>% 
+        data_crime_2() %>% 
             ggplot(aes(x=value, y=reorder(variable,value),fill=variable))+
             guides(fill=FALSE)+
             geom_col()+
@@ -107,9 +108,9 @@ server <- function(input, output){
             theme_bw()+
             theme(plot.title = element_text(hjust=0.5))
     })
-        output$table <- renderDT({
-            data_crime()
-        })
+    output$table <- renderDT({
+        data_crime()
+    })
 }
 
 shinyApp(ui=ui, server=server)  
