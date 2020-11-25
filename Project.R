@@ -91,23 +91,20 @@ server <- function(input, output){
         output$plot1_values <- renderPlot({
         data_crime_1() %>% group_by(variable) %>%
             ggplot(aes(x=value, y=reorder(variable,value),fill=variable))+
+            guides(fill=FALSE)+
             geom_col()+
             labs(x="total cases",y=NULL,title="Crime Statistics per Class")+
-            
             theme(plot.title = element_text(hjust=0.5))
-            
-            
-        
     })
     
     output$plot2_values <- renderPlot({
         data_crime_2() %>% group_by(variable) %>% 
             ggplot(aes(x=value, y=reorder(variable,value),fill=variable))+
+            guides(fill=FALSE)+
             geom_col()+
             labs(x="Number of Cases per Year",y=NULL,title="Total Crimes Cases")+
             theme_bw()+
             theme(plot.title = element_text(hjust=0.5))
-        
     })
         output$table <- renderDT({
             data_crime()
