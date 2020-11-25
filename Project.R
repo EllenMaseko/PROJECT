@@ -101,7 +101,7 @@ server <- function(input, output){
         output$plot2_values <- renderPlot({
             data_crime_2() %>% 
                 ggplot(aes(x=value,y=variable,fill=variable))+
-                geom_col(xinch(x=1,warn.log = TRUE ))+
+                geom_col()+
                 labs(x="Number of Cases per Year",y=NULL,title="Total Crimes Cases")+
                 theme_bw()+
                 theme(plot.title = element_text(hjust=0.5))
