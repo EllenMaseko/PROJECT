@@ -94,6 +94,7 @@ server <- function(input, output){
             guides(fill=FALSE)+
             geom_col()+
             labs(x="total cases",y=NULL,title="Crime Statistics per Class")+
+            theme_bw()+
             theme(plot.title = element_text(hjust=0.5))
     })
     
