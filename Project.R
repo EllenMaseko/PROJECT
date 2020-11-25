@@ -18,8 +18,8 @@ ui <- dashboardPage(
         
     ),
     dashboardBody(
-        column(width = 7, plotOutput("plot1_values", height = 300)),
-        column(width = 5, plotOutput("plot2_values", height = 300)),
+        column(width = 7, plotOutput("plot1_values", height = 325)),
+        column(width = 5, plotOutput("plot2_values", height = 325)),
         column(width = 12, DTOutput("table"))
         
     )
