@@ -20,7 +20,7 @@ ui <- dashboardPage(
     dashboardBody(
         column(width = 7, plotOutput("plot1_values", height = 300)),
         column(width = 5, plotOutput("plot2_values", height = 300)),
-        column(width = 12, datatable(df))
+        column(width = 12, DTOutput("table"))
         
     )
 )
@@ -107,7 +107,7 @@ server <- function(input, output){
                 theme(plot.title = element_text(hjust=0.5))
             
         })
-        output$table <- renderTable({
+        output$table <- renderDT({
             data_crime()
         })
 }
